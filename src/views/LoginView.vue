@@ -55,10 +55,10 @@
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import api from '../services/api'
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const store = useStore()
@@ -68,22 +68,22 @@ const user = reactive({
 })
 
 onMounted(async () => {
-      const user = store.state.user;
-      const token = localStorage.getItem('token');
-    
-      if (token && user.token !== '' && user.token !== null && user.token !== undefined ) {
-        const isAuth = await api.post('/auth/verify-token', { token: user.token });
-        
-        if (isAuth?.data?.token === true) {
-          router.push({ name: 'DashboardView' });
-        }
-      }
-    });
+  const user = store.state.user
+  const token = localStorage.getItem('token')
+
+  if (token && user.token !== '' && user.token !== null && user.token !== undefined) {
+    const isAuth = await api.post('/auth/verify-token', { token: user.token })
+
+    if (isAuth?.data?.token === true) {
+      router.push({ name: 'DashboardView' })
+    }
+  }
+})
 
 async function login() {
   try {
     const response = await api.post('auth/login', user)
-    const data = response.data;
+    const data = response.data
     store.dispatch('setUser', data)
 
     toast.success('Login realizado com sucesso!')
@@ -93,7 +93,9 @@ async function login() {
       router.push('/dashboard')
     }, 1000)
   } catch (error: any) {
-    toast.error(error?.response?.data.message ? error.response.data.message : error.response.data.error)
+    toast.error(
+      error?.response?.data.message ? error.response.data.message : error.response.data.error
+    )
   }
 }
 </script>
