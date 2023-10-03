@@ -37,7 +37,15 @@
           </div>
         </form>
         <div class="w-[75%] h-[8%] flex justify-end items-center">
-          <a href="/register" class="text-blue-900 hover:text-blue-700 transition-all ease-in-out duration-200">Cadastre-se aqui!</a>
+          <span
+            >Não possui uma conta?
+            <a
+              href="/register"
+              class="text-blue-900 hover:text-blue-700 transition-all ease-in-out duration-200"
+            >
+              Cadastre-se aqui!</a
+            ></span
+          >
         </div>
       </div>
     </div>
@@ -49,7 +57,11 @@ import { reactive } from 'vue'
 import api from '../services/api'
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
+const store = useStore()
 const user = reactive({
   email: '',
   password: ''
@@ -58,9 +70,17 @@ const user = reactive({
 async function login() {
   try {
     const response = await api.post('auth/login', user)
-    console.log(response)
+    const data = response.data;
+    store.dispatch('setUser', data)
+
+    toast.success('Login realizado com sucesso!')
+
+    localStorage.setItem('token', data.token)
+    setTimeout(() => {
+      router.push('/dashboard')
+    }, 1000)
   } catch (error: any) {
-    toast.error(error?.response?.data.message)
+    toast.error(error?.response?.data.message ? error.response.data.message : error.response.data.error)
   }
 }
 </script>
