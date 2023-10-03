@@ -1,4 +1,10 @@
 import { createStore } from 'vuex';
+import VuexPersist from 'vuex-persist';
+
+const vuexPersist = new VuexPersist({
+  key: 'vuex',
+  storage: window.localStorage,
+});
 
 export default createStore({
   state() {
@@ -36,5 +42,6 @@ export default createStore({
     getUser(state: { user: any; }) {
       return state.user
     }
-  }
+  },
+  plugins: [vuexPersist.plugin],
 });

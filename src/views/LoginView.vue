@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 import api from '../services/api'
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -66,6 +66,19 @@ const user = reactive({
   email: '',
   password: ''
 })
+
+onMounted(async () => {
+      const user = store.state.user;
+      const token = localStorage.getItem('token');
+    
+      if (token && user.token !== '' && user.token !== null && user.token !== undefined ) {
+        const isAuth = await api.post('/auth/verify-token', { token: user.token });
+        
+        if (isAuth?.data?.token === true) {
+          router.push({ name: 'DashboardView' });
+        }
+      }
+    });
 
 async function login() {
   try {
