@@ -59,6 +59,7 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import websocketService from '../socket';
 
 const router = useRouter()
 const store = useStore()
@@ -88,7 +89,10 @@ async function login() {
 
     toast.success('Login realizado com sucesso!')
 
-    localStorage.setItem('token', data.token)
+    localStorage.setItem('token', data.token)    
+
+    websocketService.connect()
+
     setTimeout(() => {
       router.push('/dashboard')
     }, 1000)

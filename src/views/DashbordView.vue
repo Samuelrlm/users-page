@@ -1,19 +1,26 @@
-
 <template>
   <div>
     <h1>Home</h1>
     <div>
-      <h2>Usuário: {{ user.email }}</h2>
-      <h2>: {{ user.name }}</h2>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
- import { useStore } from 'vuex';
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 
 const store = useStore()
-const user = store.getters.getUser;
+const userList = ref([]);
 
-console.log(user)
+onMounted(async () => {
+  store.state.websocket.socket.on('usersList', (users: any) => {
+  userList.value = users;
+
+  console.log(userList.value);
+  });
+});
+
+  
 </script>
+
