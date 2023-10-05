@@ -91,7 +91,9 @@ async function login() {
 
     localStorage.setItem('token', data.token)    
 
-    websocketService.connect()
+    if (!localStorage.getItem('websocketId')) {
+      websocketService.connect();
+    }
 
     setTimeout(() => {
       router.push('/dashboard')

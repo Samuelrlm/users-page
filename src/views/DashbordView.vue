@@ -9,16 +9,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import websocketService from '../socket';
 
 const store = useStore()
 const userList = ref([]);
 
 onMounted(async () => {
-  store.state.websocket.socket.on('usersList', (users: any) => {
-  userList.value = users;
-
-  console.log(userList.value);
-  });
+  websocketService.on('usersList', (usersList:any) => {
+  // usersList é a lista de usuários recebida do servidor WebSocket
+  console.log('Lista de Usuários:', usersList);
+});
 });
 
   

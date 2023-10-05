@@ -1,4 +1,3 @@
-// websocketModule.js
 import useWebsocket from '../socket';
 
 const state = {

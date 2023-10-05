@@ -10,38 +10,49 @@ export default createStore({
   state() {
     return {
       user: {
-        name: '',
-        email: '',
-        permissionLevel: 0,
-        token: ''
+        name: null,
+        email: null,
+        permissionLevel: null,
+        token: null,
       },
+      socketId: null,
     }
   },
   mutations: {
-    setUser(state: { user: any; }, payload: any) {
-      state.user = payload
+    setUser(state, payload) {
+      state.user = payload;
     },
-    logout(state: { user: { name: string; email: string; permissionLevel: number; token: string;} }) {
+    setSocketId(state, payload) {
+      state.socketId = payload;
+    },
+    logout(state) {
       state.user = {
-        name: '',
-        email: '',
-        permissionLevel: 0,
-        token: ''
-      }
-    }
+        name: null,
+        email: null,
+        permissionLevel: null,
+        token: null,
+      };
+      state.socketId = null;
+    },
   },
   actions: {
-    setUser({ commit }: any, payload: any) {
-      commit('setUser', payload)
+    setUser({ commit }, payload) {
+      commit('setUser', payload);
     },
-    logout({ commit }: any) {
-      commit('logout')
-    }
+    setSocketId({ commit }, payload) {
+      commit('setSocketId', payload);
+    },
+    logout({ commit }) {
+      commit('logout');
+    },
   },
   getters: {
-    getUser(state: { user: any; }) {
-      return state.user
-    }
+    getUser(state) {
+      return state.user;
+    },
+    getSocketId(state) {
+      return state.socketId;
+    },
   },
   plugins: [vuexPersist.plugin],
 });
