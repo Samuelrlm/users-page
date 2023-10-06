@@ -36,11 +36,6 @@ export default defineComponent({
                 icon: 'md-dashboard',
                 url: 'dashboard'
             },
-            {
-                name: 'Usuários',
-                icon: 'bi-people-fill',
-                url: 'users'
-            }
         ]
 
         function navigate(page: any) {
