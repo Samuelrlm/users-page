@@ -1,26 +1,37 @@
 <template>
-  <div>
-    <h1>Home</h1>
-    <div>
+  <PageWarper :namePage="pageName" iconPage="md-dashboard">
+    <div class="w-full h-auto">
+      <div class="" v-for="(user, index) in sessionUsersList" :key="index">
+        <p>{{ user.email }}</p>
+      </div>
     </div>
-  </div>
+  </PageWarper>
 </template>
 
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
-import websocketService from '../socket';
+<script lang="ts">
+import { onMounted, ref, onBeforeMount  } from 'vue'
+import websocketService from '../socket'
+import PageWarper from '../components/PageWarper/PageWarper.vue'
 
-const store = useStore()
-const userList = ref([]);
+export default {
+  components: {
+    PageWarper
+  },
+  setup() {
+    const pageName = ref('Dashboard')
+    const sessionUsersList = ref([])
 
-onMounted(async () => {
-  websocketService.on('usersList', (usersList:any) => {
-  // usersList é a lista de usuários recebida do servidor WebSocket
-  console.log('Lista de Usuários:', usersList);
-});
-});
+    onBeforeMount(async () => {
+      await websocketService.on('sessionUsersList', (usersList: any) => {
+        sessionUsersList.value = usersList
+      })
+    })
 
-  
+
+    return {
+      pageName,
+      sessionUsersList
+    }
+  }
+}
 </script>
-

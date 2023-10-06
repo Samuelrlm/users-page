@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <router-link to="/">Login</router-link>
-  <router-link to="/register">Register</router-link>
-  <router-link to="/dashboard">Dashboard</router-link>
+  <router-link class="hidden" to="/">Login</router-link>
+  <router-link class="hidden" to="/register">Register</router-link>
+  <router-link class="hidden" to="/dashboard">Dashboard</router-link>
 
   <router-view />
 </template>
