@@ -11,9 +11,7 @@ let websocketIdLocal = getWebSocketIdFromLocalStorage();
 const socket = io('http://localhost:4707/', {
   transports: ['websocket'],
   autoConnect: true,
-  query: {
-    "socketId": websocketIdLocal
-  }
+
 })
 
 socket.on('connect', () => {

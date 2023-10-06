@@ -83,6 +83,8 @@ onMounted(async () => {
 
 async function login() {
   try {
+    websocketService.connect()
+
     const response = await api.post('auth/login', user)
     const data = response.data
     store.dispatch('setUser', data)
@@ -91,13 +93,10 @@ async function login() {
 
     localStorage.setItem('token', data.token)    
 
-    if (!localStorage.getItem('websocketId')) {
-      websocketService.connect();
-    }
-
     setTimeout(() => {
-      router.push('/dashboard')
-    }, 1000)
+      router.push({ name: 'DashboardView' })
+    }, 1500)  
+    
   } catch (error: any) {
     toast.error(
       error?.response?.data.message ? error.response.data.message : error.response.data.error

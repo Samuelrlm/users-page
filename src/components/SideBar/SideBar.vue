@@ -48,6 +48,7 @@ export default defineComponent({
     const router = useRouter()
 
    async function logout() {
+      websocketService.disconnect()
         const token = localStorage.getItem('token')
 
         await api.post('session-user/logout', {
@@ -57,7 +58,6 @@ export default defineComponent({
         }).catch(() => {
             toast.error('Erro ao realizar logout!')
         })
-        websocketService.disconnect()
         await store.dispatch('logout')
         localStorage.removeItem('token')
         setTimeout(() => {
