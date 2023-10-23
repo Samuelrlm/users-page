@@ -1,6 +1,11 @@
 <template>
   <div class="w-[99vw] h-screen flex">
-    <div class="w-1/2 h-full bg-blue-900 rounded-tr-xl max-md:hidden"></div>
+    <div class="w-1/2 h-full bg-blue-900 rounded-tr-xl max-md:hidden flex items-center justify-center">
+      <div class="w-[70%] h-[50%] flex items-center flex-col">
+        <img src="../../public/login-page.svg" alt="Logo" class="w-full h-full" />
+        <p class="font-bold text-[60px] text-white">Bem vindo de volta!!!</p>
+      </div>
+    </div>
     <div class="w-1/2 h-full flex items-center justify-center max-md:w-full">
       <div class="w-full h-[60%] flex items-center justify-center flex-col">
         <form @submit.prevent="login" class="bg-white rounded-lg shadow-md w-[80%] h-[90%]">

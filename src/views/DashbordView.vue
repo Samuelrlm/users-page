@@ -1,7 +1,7 @@
 <template>
   <PageWarper :namePage="pageName" iconPage="md-dashboard">
     <div class="w-full h-auto felx flex-wrap">
-      <div class="p-2 rounded-md border bg-gray-300 mt-3" v-for="(user, index) in sessionUsersList" :key="index">
+      <div class="p-2 rounded-md border bg-gray-300 mt-3 w-[400px]" v-for="(user, index) in sessionUsersList" :key="index">
         <p>{{ user._id }}</p>
         <p>{{ user.name }}</p>
         <p>{{ user.email }}</p>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import websocketService from '../socket'
 import PageWarper from '../components/PageWarper/PageWarper.vue'
 
@@ -25,8 +25,16 @@ export default {
     PageWarper
   },
   setup() {
+
+    interface User {
+      _id: string;
+      name: string;
+      email: string;
+      permissionLevel: number;
+    } 
+
     const pageName = ref('Dashboard')
-    const sessionUsersList = ref([])
+    const sessionUsersList = ref<User[]>([])
 
     websocketService.on('usersList', (usersList: any) => {
       sessionUsersList.value = usersList
