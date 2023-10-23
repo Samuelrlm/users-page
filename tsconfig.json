@@ -10,7 +10,7 @@
   ],
   "compilerOptions": {
     "types": [
-      "vue3-toastfify/global"
+      "vue3-toastfify/global", "vuex"
     ]
   }
 }

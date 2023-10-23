@@ -32,19 +32,18 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.meta?.auth) {
     const store = useStore()
-    const user = store.getters.getUser
-
-
-    if (user.token !== '' || user.token !== null || user.token !== undefined) {
+    const user = store.state.user
+    
+    if (user.token !== '' && user.token !== null && user.token !== undefined) {
       const isAuth = await api.post('/auth/verify-token', { token: user.token })
 
       if (isAuth?.data?.token === true) {
         next()
       } else {
-        next({ name: 'login' })
+        next({ name: 'LoginView' })
       }
     } else {
-      next({ name: 'login' })
+      next({ name: 'LoginView' })
     }
   } else {
     next()

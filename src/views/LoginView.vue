@@ -53,12 +53,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 import api from '../services/api'
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import websocketService from '../socket';
 
 const router = useRouter()
 const store = useStore()
@@ -67,20 +68,39 @@ const user = reactive({
   password: ''
 })
 
+onMounted(async () => {
+  const user = store.state.user
+  const token = localStorage.getItem('token')
+
+  if (token && user.token !== '' && user.token !== null && user.token !== undefined) {
+    const isAuth = await api.post('/auth/verify-token', { token: user.token })
+
+    if (isAuth?.data?.token === true) {
+      router.push({ name: 'DashboardView' })
+    }
+  }
+})
+
 async function login() {
   try {
+    websocketService.connect()
+
     const response = await api.post('auth/login', user)
-    const data = response.data;
+    const data = response.data
     store.dispatch('setUser', data)
 
     toast.success('Login realizado com sucesso!')
 
-    localStorage.setItem('token', data.token)
+    localStorage.setItem('token', data.token)    
+
     setTimeout(() => {
-      router.push('/dashboard')
-    }, 1000)
+      router.push({ name: 'DashboardView' })
+    }, 1500)  
+    
   } catch (error: any) {
-    toast.error(error?.response?.data.message ? error.response.data.message : error.response.data.error)
+    toast.error(
+      error?.response?.data.message ? error.response.data.message : error.response.data.error
+    )
   }
 }
 </script>

@@ -14,10 +14,14 @@
   "dependencies": {
     "@vue/cli-plugin-vuex": "^5.0.8",
     "axios": "^1.5.1",
+    "oh-vue-icons": "^1.0.0-rc3",
+    "socket.io-client": "^4.7.2",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
+    "vue-socket.io": "^3.0.10",
     "vue3-toastify": "^0.1.13",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.3.3",
